@@ -1,5 +1,6 @@
-# Slack_Clone
-a online chatting web app base on Slack
+# Online Chatting App
+
+a online chatting web app, UI base on Slack
 
 Front-end: React, Redux, React-Router, Styled CSS, material UI
 
