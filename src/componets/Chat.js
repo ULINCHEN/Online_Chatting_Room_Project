@@ -8,7 +8,7 @@ import { selectRoomId } from '../features/appSlice';
 import ChatInput from '../componets/ChatInput';
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 import { db } from '../firebase';
-import { doc, getDoc, collection, orderBy, query, Query, FieldPath, collectionGroup } from "firebase/firestore";
+import { doc, collection, orderBy, query } from "firebase/firestore";
 import Message from '../componets/Message'
 
 
@@ -41,36 +41,39 @@ const Chat = () => {
 
     return (
         <ChatContainer>
-            <>
-                <Header>
-                    <HeaderLeft>
-                        <h4><strong>#{roomDetails?.data().name}</strong></h4>
-                        <StarBorderIcon />
-                    </HeaderLeft>
-                    <HeaderRight>
-                        <p><HelpOutlineIcon /> Details </p>
-                    </HeaderRight>
-                </Header>
+
+            {roomDetails && roomMessages && (
+                <>
+                    <Header>
+                        <HeaderLeft>
+                            <h4><strong>#{roomDetails?.data().name}</strong></h4>
+                            <StarBorderIcon />
+                        </HeaderLeft>
+                        <HeaderRight>
+                            <p><HelpOutlineIcon /> Details </p>
+                        </HeaderRight>
+                    </Header>
 
 
-                <ChatMessages>
-                    {roomMessages?.docs.map(doc => {
-                        const { message, timestamp, user, userImage } = doc.data();
-                        return (
-                            <Message
-                                key={doc.id}
-                                message={message}
-                                timestamp={timestamp}
-                                user={user}
-                                userImage={userImage}
-                            />
-                        )
-                    })}
-                    <ChatBottom ref={chatRef} />
-                </ChatMessages>
+                    <ChatMessages>
+                        {roomMessages?.docs.map(doc => {
+                            const { message, timestamp, user, userImage } = doc.data();
+                            return (
+                                <Message
+                                    key={doc.id}
+                                    message={message}
+                                    timestamp={timestamp}
+                                    user={user}
+                                    userImage={userImage}
+                                />
+                            )
+                        })}
+                        <ChatBottom ref={chatRef} />
+                    </ChatMessages>
 
-                <ChatInput chatRef={chatRef} channelName={roomDetails?.data().name} channelId={roomId} />
-            </>
+                    <ChatInput chatRef={chatRef} channelName={roomDetails?.data().name} channelId={roomId} />
+                </>
+            )}
         </ChatContainer>
     )
 }

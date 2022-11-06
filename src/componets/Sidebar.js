@@ -16,21 +16,25 @@ import AddIcon from '@mui/icons-material/Add';
 import { useCollection } from "react-firebase-hooks/firestore"
 import { collection, addDoc } from "firebase/firestore";
 import { db } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
 
 let Sidebar = () => {
 
     //The useCollection hook Returns a firestore.QuerySnapshot (if a query is specified), a boolean to indicate if the data is still being loaded and any firestore.FirestoreError returned by Firebase when trying to load the data.
     const [channels, loading, error] = useCollection(collection(db, "rooms"));
 
+    const [user] = useAuthState(auth);
+
     return (
         <SidebarContainer>
 
             <SidebarHeader>
                 <SidebarInfo>
-                    <h2>Center</h2>
+                    <h2>User Center</h2>
                     <h3>
                         <FiberManualRecordIcon />
-                        YOULIN CHEN
+                        {user.displayName}
                     </h3>
                 </SidebarInfo>
                 <CreateIcon />
